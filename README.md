@@ -1,7 +1,7 @@
 
 # Traveller
 
-A tour booking server app. User can explore, book, search by distance and add
+A tour booking server app. User can explore, book, search and add
 reviews on tours. 
 
 Server side rendered SOME function using Pug Template
