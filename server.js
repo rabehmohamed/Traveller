@@ -1,6 +1,15 @@
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
+const redis = require('redis');
 
+// Connect to our Database
+const redisClient = redis.createClient(6379,'127.0.0.1');
+
+redisClient.on('connect', () => {
+  console.log('##########################################################');
+  console.log('#####            REDIS STORE CONNECTED               #####');
+  console.log('##########################################################\n');
+});
 process.on('uncaughtException' , err => {
     console.log("uncaught exception ... shutting down"); 
     console.log(err.name , err.message);
@@ -30,7 +39,6 @@ app.listen(port , ()=>{
 // HANDLE UNHANDLED REJECTED PROMISES 
 process.on('unhandledRejection' , err =>{  
     console.log("unhandled rejection ... shutting down"); 
-    console.log(err.name , err.message);
     // 0 : success , 1 : uncaught exception
     server.close(() => {
         process.exit(1);

@@ -9,6 +9,7 @@ const hpp = require('hpp');
 const session = require('express-session');
 const mongodbStore = require('connect-mongodb-session')(session);
 const cookieParser = require('cookie-parser');
+const compression = require('compression');
 
 const appError = require('./utils/appError');
 const errorHandler = require('./controllers/errorContoller');
@@ -48,7 +49,7 @@ if(process.env.NODE_ENV === "development"){
 const limiter = rateLimit({
     // max -> 100 requests from same ip , windowMs -> one hour
     max : 1000,
-    windowMs : 60*60*1000,
+    windowMs : 60*60*1000, // 1 hour
     message : 'Too many requests from this IP , please try again in an hour!'
 });
 
@@ -63,13 +64,14 @@ app.use(cookieParser());
 // Data sanitization : against noSql query injection 
 app.use(mongoSanitize());
 
-// Data sanitization : xss
+// Data sanitization : (cross-stie scripting)
 app.use(xss());
-// Prevent parameter pollutino
+// Prevent parameter pollution
 app.use(hpp({
     whitelist : ['duration' , 'ratingsAverage' , 'ratingsQuantity' , 'maxGroupSize' , 'difficulty' , 'price']
 }));
-
+// reduce size of http responses 
+app.use(compression());
 
 /* app.use(session({
     secret : 'SGLAASJFASJLFSAJFSAJFA',

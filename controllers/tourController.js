@@ -89,6 +89,7 @@ exports.getTourStats = catchAsync ( async (req,res)=>{
                 }
             },
             {
+                //ASCENDING
                 $sort : { avgPrice : 1}
             }              
         ]);
@@ -106,6 +107,7 @@ exports.getMonthlyPlan = catchAsync ( async(req , res)=> {
 
         const plan = await Tour.aggregate([
             {
+                //DESTRUCTUS STARTDATES ARRAY OF TOUR TO DOCUMENTS
                 $unwind : '$startDates'
             },
             {

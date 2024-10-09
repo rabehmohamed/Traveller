@@ -140,7 +140,6 @@ exports.forgotPassword = catchAsync (async (req, res , next) =>{
         status : 'success',
         message : 'Token created!'
     });
-    console.log(resetToken);
 
   /*  const resetURL = `${req.protocol}://${req.get('host')}/api/v1/users/resetPassword/${resetToken}` ; 
     const message = `Forgot you password ? Submit with your new password to : ${resetURL}`;
